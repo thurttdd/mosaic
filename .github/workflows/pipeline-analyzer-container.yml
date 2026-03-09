@@ -17,6 +17,13 @@ on:
       - labeled
       - unlabeled
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      force_build:
+        description: 'When true, always run build (e.g. when called from release workflow)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   check-paths:
@@ -42,7 +49,7 @@ jobs:
   build-container:
     name: Build and Scan Pipeline Analyzer Container
     needs: check-paths
-    if: github.event_name == 'workflow_dispatch' || needs.check-paths.outputs.pipeline-analyzer-container == 'true'
+    if: inputs.force_build == true || github.event_name == 'workflow_dispatch' || needs.check-paths.outputs.pipeline-analyzer-container == 'true'
     runs-on: ubuntu-latest-m
 
     steps:
