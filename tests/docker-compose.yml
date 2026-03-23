@@ -15,15 +15,20 @@ services:
     container_name: production-test-framework
     environment:
       - MOSAIC_PATH=${MOSAIC_PATH}
-      - RUN_MAKE_TARGET=profiler-otel-test-only
+      - RUN_MAKE_TARGET=run-tests
       - PYTEST_ARGS="--junitxml=/app/results/test_results.xml"
+      - TEST_MARKER="profiler_otel or dashboards"
     network_mode: "host"
     volumes:
       - ./suites:/app/tests:ro
+      - ../deployments/dashboards:/mnt/dashboards:ro
       - test-results:/app/results
     depends_on:
-      - mosaic-vllm
-      - otel-lgtm
+      mosaic-vllm:
+        condition: service_started
+    
+      otel-lgtm:
+          condition: service_healthy
     restart: "no"
 
 volumes:
