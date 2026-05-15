@@ -11,8 +11,8 @@ import time
 import pytest
 import requests
 
-from framework.vllm import InferenceResult
-from framework.workload.workload import WorkloadStatus
+from production_test_framework.vllm import InferenceResult
+from production_test_framework.workload.workload import WorkloadStatus
 
 # =============================================================================
 # NCCL Profiler Telemetry Tests

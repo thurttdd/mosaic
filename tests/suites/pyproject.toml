@@ -5,8 +5,15 @@ name = "mosaic-tests"
 version = "0.1.0"
 description = "Mosaic integration test suite"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "production-test-framework",
+]
 
+# Resolve the framework from the sibling repo when both are checked out under the same parent (e.g. …/thurttdd/mosaic and …/thurttdd/production-test-framework).
+[tool.uv.sources]
+production-test-framework = { path = "../../../production-test-framework", editable = true }
+
+[tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["."]
 python_files = "test_*.py"
